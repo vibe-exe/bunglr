@@ -204,7 +204,7 @@
 <body onload="addGlitches()">
   <div style="position: absolute; top: 0; width: 100%; height:40px;background: rgba(0, 0, 0, 0.2); font-size: 0.9rem; display: flex; justify-content: space-between; align-items: center; color: var(--muted-color); z-index: 1000;">
     <div style='width:100%;max-width:900px;height:100%;margin:auto;position:relative'>
-      <div style='position:absolute;left:0px;'><strong style="color: var(--text-color);">Bunglr</strong></div>
+      <div style='position:absolute;left:0px;'><div style='position:absolute;left:0px;'><img src='images/bunglr.png' style="height:35px;position:relative;top:2px"></div></div>
       <div style='position:absolute;right:0px;height:100%;font-size:30px;cursor:pointer;' id="notificationIcon" title="No new notifications" style="cursor: pointer;">
         🔔<span id="notificationBadge" style="margin-left: 6px; font-size: 0.75rem; color: var(--accent-color);"></span>
       </div>
@@ -346,7 +346,25 @@
   'Pretend I’m planning, actually just reorganizing',
   'Ask AI for help, ignore the advice',
   'Rename a Google Doc instead of writing it',
-  'Design app icons instead of finishing features'
+  'Design app icons instead of finishing features',
+  'Read 40 tweets on focus instead of doing my task',
+  'Sort my email by sender and feel accomplished',
+  'Update my notion homepage for the 12th time',
+  'Write an apology to myself and delete it immediately',
+  'Organize a fake schedule I won’t follow',
+  'Research “dopamine detox” while eating cookies',
+  'Join a virtual coworking session just to feel something',
+  'Move Trello cards around like it means something',
+  'Stare blankly at my to-do list until the guilt subsides',
+  'Make an inspirational desktop wallpaper, then cry',
+  'Try to meditate but just dissociate instead',
+  'Color code my calendar as a form of self-deception',
+  'Write a mission statement for a dream I forgot',
+  'Open a goal-setting app, feel judged by the UI',
+  'Watch “How to focus” videos at 2x speed while multitasking',
+  'Install Notion templates and feel a false sense of progress',
+  'Make a new online alias and vanish again',
+  'Set SMART goals that are all just sad metaphors'
 ];
 
   const userData = [
@@ -431,6 +449,7 @@
   'Deployment failed: vibes not deployable',
   'MemoryLeakError: clinging to the past',
   'Permission denied: speak your truth',
+  'Fatal Error: We bought stickers instead of a backend',
   'BrokenPipe: connection with reality lost',
   'Failed to execute "growUp": undefined is not a function',
   'TimeOut: never healed from that one thing',
@@ -509,7 +528,7 @@
     const list = document.getElementById('suggestionList');
     if (!list) return;
     list.innerHTML = '';
-    const sample = shuffle(suggestions).slice(0, 5);
+    const sample = shuffle(suggestions).slice(0, 6);
     sample.forEach(text => {
       const li = document.createElement('li');
       li.textContent = text;
@@ -532,12 +551,12 @@
     if (userCards) userCards.scrollTop = 0;
   }
 function addGlitches() {
-  const elements = document.querySelectorAll('h2, .button, .user-card h4');
-  elements.forEach(el => {
-    if (Math.random() < 0.5) {
-      el.classList.add('glitch');
-    }
-  });
+  //const elements = document.querySelectorAll('h2, .button, .user-card h4');
+  //elements.forEach(el => {
+  //  if (Math.random() < 0.5) {
+  //    el.classList.add('glitch');
+  //  }
+  //});
 }
 const notificationMessages = [
   'You have 1 new connection request from someone who also gave up.',
@@ -587,8 +606,8 @@ function showRandomNotification() {
   const popup = document.createElement('div');
   popup.textContent = msg;
   popup.style.position = 'absolute';
-  popup.style.top = '2.5rem';
-  popup.style.right = '1rem';
+  popup.style.top = '50px';
+  popup.style.right = 'calc(50% - 167px)';
   popup.style.background = 'var(--card-bg)';
   popup.style.border = '1px solid rgba(255,255,255,0.1)';
   popup.style.color = 'var(--text-color)';
@@ -597,11 +616,11 @@ function showRandomNotification() {
   popup.style.fontSize = '0.9rem';
   popup.style.boxShadow = '0 8px 24px rgba(0,0,0,0.2)';
   popup.style.zIndex = 1001;
-  popup.style.maxWidth = '300px';
+  popup.style.width = '300px';
   popup.className = 'notification-popup';
 
   document.body.appendChild(popup);
-  setTimeout(() => popup.remove(), 5000);
+  setTimeout(() => popup.remove(), 4000);
 }
 
 document.getElementById('notificationIcon').addEventListener('click', showRandomNotification);
@@ -688,10 +707,12 @@ function toggleCareersModal() {
   </script>
 <footer style="position: absolute; bottom: 0; width: 100%; text-align: center; padding: 1rem; font-size: 0.85rem; color: var(--muted-color); background: rgba(0, 0, 0, 0.2);">
   <p>
-    <a href="https://hopedoesntscale.bandcamp.com" target="_blank" style="color: var(--muted-color); text-decoration: underline;">Hope Doesn’t Scale (album)</a> |
     <a href="#" onclick="toggleTeamModal()" style="color: var(--muted-color); text-decoration: underline;">Our Team</a> |
     <a href="#" onclick="toggleFaqModal()" style="color: var(--muted-color); text-decoration: underline;">FAQ</a> |
     <a href="#" onclick="toggleCareersModal()" style="color: var(--muted-color); text-decoration: underline;">Careers</a>
+  </p>
+  <p>
+    <a href="https://github.com/vibe-exe/hope-doesnt-scale" target="_blank" style="color: var(--muted-color); text-decoration: underline;">Hope Doesn’t Scale</a>
   </p>
   </footer>
 <div id="faqModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; padding: 5px; overflow-y: auto;">
@@ -705,7 +726,7 @@ function toggleCareersModal() {
   <div style="background: var(--card-bg); color: var(--text-color); padding: 2rem; max-width: 600px; width: 90%; border-radius: 1rem; box-shadow: 0 12px 30px rgba(0,0,0,0.3); max-height: 80vh; overflow-y: auto;">
     <h2 style="margin-top: 0;">Meet Our Team</h2>
     <div style="display: flex; flex-direction: column; align-items: center; text-align: left;">
-      <img src="profiles/tanner.jpg" alt="Tanner Vale headshot" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem;">
+      <img src="images/tanner.png" alt="Tanner Vale headshot" style="width: 150px; height: 200px; border-radius: 25px; object-fit: cover; margin-bottom: 1rem;">
       <h3 style="margin: 0;">Tanner Vale</h3>
       <p style="margin: 0.75rem 0; font-size: 0.95rem; line-height: 1.5;">
         Tanner is the founder, sole contributor, and accidental face of Bunglr. He has a background in failed startups, post-ironic optimism, and once pitched an app while crying in a hammock. When not avoiding his own to-do list, Tanner mentors younger tech bros on how to gracefully spiral.
