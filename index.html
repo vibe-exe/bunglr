@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bunglr Onboarding</title>
+  <style>
+    :root {
+      --primary-color: #0ea5e9;
+      --accent-color: #f59e0b;
+      --bg-color: linear-gradient(135deg, #576270, #565f69);
+      --card-bg: #2a2f38;
+      --text-color: #e2e8f0;
+      --muted-color: #8594a8;
+    }
+
+    body {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: var(--bg-color);
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .onboarding {
+      background: var(--card-bg);
+      border-radius: 1.25rem;
+      padding: 2rem 1.5rem;
+      max-width: 420px;
+      width: 90%;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      backdrop-filter: blur(10px);
+      position: relative;
+    }
+
+    .user-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .user-card {
+      background: #343b45;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-left: 4px solid var(--accent-color);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      padding: 0.75rem;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      text-align: left;
+    }
+
+    .user-card h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.95rem;
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+    .user-card p {
+      margin: 0.25rem 0;
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      color: var(--text-color);
+    }
+
+    p {
+      font-size: 1.05rem;
+      color: var(--text-color);
+      margin: 0.75rem 0;
+    }
+
+    .button {
+      margin-top: 1.5rem;
+      padding: 0.75rem 1.25rem;
+      width: 100%;
+      border: none;
+      background-color: var(--primary-color);
+      color: white;
+      border-radius: 0.75rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .button:hover {
+      background-color: var(--accent-color);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .input-field {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border-radius: 0.75rem;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      background: #fffdfc;
+    }
+
+    .suggestions {
+      text-align: left;
+      font-size: 0.95rem;
+      color: var(--muted-color);
+      margin-top: 1rem;
+    }
+
+    .suggestions ul {
+      list-style: none;
+      padding: 0;
+      margin: 0.5rem 0 0 0;
+    }
+
+    .suggestions li {
+  margin-bottom: 0.4rem;
+  padding-left: 1rem;
+  position: relative;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.suggestions li:hover {
+  color: var(--accent-color);
+}
+
+    .suggestions li::before {
+      content: "\2022";
+      color: var(--accent-color);
+      position: absolute;
+      left: 0;
+    }
+
+    .progress-bar {
+      margin-top: 1.5rem;
+      height: 12px;
+      width: 100%;
+      background: #e0e0e0;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      width: 0%;
+      background: var(--primary-color);
+      transition: width 0.4s ease;
+    }
+
+    .dimmed-link {
+      color: var(--muted-color);
+      font-size: 0.9rem;
+      pointer-events: none;
+      margin-top: 1.25rem;
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 0.5rem;
+    }
+    .glitch {
+    animation: glitch 2.5s;
+  }
+
+  @keyframes glitch {
+  0% { transform: none; opacity: 1; color: inherit; }
+  10% { transform: skewX(-2deg); opacity: 0.95; color: #fbbf24; }
+  20% { transform: translateX(1px); opacity: 1; color: inherit; }
+  30% { transform: translateY(-1px); }
+  40% { transform: skewX(1deg); opacity: 0.9; color: #f59e0b; }
+  50% { transform: none; color: inherit; }
+  60% { transform: translateX(-2px); }
+  70% { transform: translateY(1px); color: #d97706; }
+  80% { transform: skewX(-1deg); }
+  90% { transform: translateX(2px); opacity: 0.95; color: #fbbf24; }
+  100% { transform: none; opacity: 1; color: inherit; }
+  }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    75% { transform: rotate(-5deg); }
+  }
+
+  .wiggle {
+    animation: wiggle 0.5s ease-in-out;
+  }
+</style>
+</head>
+<body onload="addGlitches()">
+  <div style="position: absolute; top: 0; width: 100%; height:40px;background: rgba(0, 0, 0, 0.2); font-size: 0.9rem; display: flex; justify-content: space-between; align-items: center; color: var(--muted-color); z-index: 1000;">
+    <div style='width:100%;max-width:900px;height:100%;margin:auto;position:relative'>
+      <div style='position:absolute;left:0px;'><strong style="color: var(--text-color);">Bunglr</strong></div>
+      <div style='position:absolute;right:0px;height:100%;font-size:30px;cursor:pointer;' id="notificationIcon" title="No new notifications" style="cursor: pointer;">
+        🔔<span id="notificationBadge" style="margin-left: 6px; font-size: 0.75rem; color: var(--accent-color);"></span>
+      </div>
+    </div>
+  </div>
+  <div class="onboarding" id="step1">
+    <h2>Welcome to Bunglr!</h2>
+    <p>A productivity tool for people who have lost the ability to be productive.</p>
+    <button class="button" onclick="nextStep(2)">Begin Onboarding</button>
+  </div>
+
+  <div class="onboarding hidden" id="step2">
+    <h2>What is Bunglr?</h2>
+    <p>Bunglr is a shared to-do list for people who never finish to-dos.</p> 
+    <p>Match with others who are also procrastinating.</p>
+    <button class="button" onclick="nextStep(3)">Got It</button>
+  </div>
+
+  <div class="onboarding hidden" id="step3">
+    <h2>Create your first Bungle!</h2>
+    <input class="input-field" type="text" id="taskInput" placeholder="What won't you be getting done today?">
+    <div class="suggestions">
+      <p>Need ideas?</p>
+      <ul id="suggestionList"></ul>
+    </div>
+    <button class="button" onclick="nextStep(4)">Bungle It</button>
+  </div>
+
+  <div class="onboarding hidden" id="step4">
+    <h2>Matching...</h2>
+    <p>Finding someone else who also won't be doing that...</p>
+    <div class="progress-bar">
+      <div class="progress" id="finalProgress"></div>
+    </div>
+    <div class="user-cards" id="userCards"></div>
+  </div>
+
+  <div class="onboarding hidden" id="step5">
+    <h2>Finalizing your Bungle...</h2>
+    <div id="errorIcon" style="margin-top: 1.5rem; display: none; align-items: center; justify-content: center; flex-direction: column;">
+      <div style="font-size: 2rem; color: #e74c3c;">❌</div>
+      <p id="errorMessage" style="margin-top: 0.5rem; color: red; font-size: 0.95rem;"></p>
+    </div>
+    <p class="hidden" id="oopsMsg">Oops! Looks like something went... wrong.<br>That’s okay. That’s kind of the point.</p>
+    <button class="button" id="retryBtn" onclick="restartOnboarding()">Try Again</button>
+    <p class="dimmed-link">Remind me later</p>
+  </div>
+<script>
+  const suggestions = [
+  'Love my children',
+  'Give up Pokémon',
+  'Learn TypeScript',
+  'Open that unread email from HR',
+  'Respond to that Slack DM from last month',
+  'Return my friend’s hoodie',
+  'Stop starting side projects',
+  'Delete my productivity folder',
+  'Figure out how to cook rice correctly',
+  'Read that book I keep referencing',
+  'Refactor my personality',
+  'Uninstall LinkedIn',
+  'Start journaling and immediately give up',
+  'Clean my desktop (again)',
+  'Do literally anything on my to-do list',
+  'Email that recruiter back (from 2021)',
+  'Get out of bed before noon',
+  'Stop pretending Google Calendar is a life plan',
+  'Open a therapy app, then immediately close it',
+  'Stare at Jira for 20 minutes',
+  'Move to a new city for ~vibes~',
+  'Join a coworking space and never go',
+  'Set better boundaries (this time for real)',
+  'Buy a houseplant I will 100% neglect',
+  'Finally cancel that trial from 2019',
+  'Declutter my bookmarks (emotionally)',
+  'Try mindfulness, give up after 4 minutes',
+  'Write a blog post no one will read',
+  'Update my portfolio and cry',
+  'Rebuild the app in a new JS framework (again)',
+  'Download a mental health app I won’t open',
+  'Schedule a call with myself',
+  'Cry but make it aesthetic',
+  'Apply for jobs I don’t want to get',
+  'Revisit a project from 2018 like it’s a time capsule',
+  'Cancel plans to focus on personal growth (aka nap)',
+  'Go back to school for something useful',
+  'Download another productivity app and forget it exists',
+  'Tell people I’m “heads down” while binge-watching YouTube',
+  'Daydream about deleting everything and becoming a forest witch',
+  'Open Figma and do nothing',
+  'Write and record a lo-fi album titled "Hope Doesn\'t Scale"',
+  'Complain in group chat instead of therapy',
+  'Search “how to be creative again”',
+  'Scroll past job posts that hit too close to home',
+  'Rebrand my burnout as a sabbatical',
+  'Pretend procrastination is “marinating ideas”',
+  'Doodle a logo for a startup I’ll never start',
+  'Research desk setups I’ll never build',
+  'Join a productivity Discord, mute it forever',
+  'Make a vision board with zero follow-through',
+  'Redownload Duolingo and ghost it again',
+  'Watch a 3 hour “life reset” vlog instead of sleeping',
+  'Plan a personal retreat that becomes a snack binge',
+  'Write goals, immediately break them',
+  'List strengths on a whiteboard, erase them slowly',
+  'Design a startup pitch deck just for the aesthetics',
+  'Use AI to rewrite my dating profile, still don’t post it',
+  'Try Pomodoro, end up in existential despair',
+  'Do a digital detox that includes none of my devices',
+  'Write a Medium post about failure and don’t publish it',
+  'Clean my keyboard to feel in control again',
+  'Text “sorry just saw this” and never follow up',
+  'Make a YouTube channel, upload nothing',
+  'Reinstall a habit tracker, ignore all reminders',
+  'Buy fancy pens to fix my life',
+  'Make a playlist to feel something',
+  'Download 12 browser extensions to “focus”',
+  'Scroll through LinkedIn and spiral',
+  'Start a bullet journal and abandon it mid-spread',
+  'Eat lunch at 4pm standing over the sink',
+  'Send “we should catch up!” to someone I won’t',
+  'Use Canva to design the future I’ll never launch',
+  'Download a budgeting app and immediately forget my password',
+  'Browse jobs I’m wildly unqualified for as a treat',
+  'Tell my therapist “I’m fine” and change the subject',
+  'Open calendar, cry softly, close calendar',
+  'Plan a retreat to discover myself, cancel for weather',
+  'Make a brand moodboard, never launch the brand',
+  'Watch productivity TikToks while ignoring to-dos',
+  'Revisit my “Q1 goals” in Q4 and scream internally',
+  'Open a self-help book, highlight a sentence, close forever',
+  'Switch to dark mode and pretend that helped',
+  'DIY my workspace to feel something',
+  'Switch productivity apps because I ran out of excuses',
+  'Buy another mug and call it self-care',
+  'Build a second brain, forget what I stored in it',
+  'Talk about goals in group chat, do none of them',
+  'Make a new folder called “life stuff” and cry into it',
+  'Pretend I’m planning, actually just reorganizing',
+  'Ask AI for help, ignore the advice',
+  'Rename a Google Doc instead of writing it',
+  'Design app icons instead of finishing features'
+];
+
+  const userData = [
+  { name: 'Harmony', info: ['Age: 34', 'MBTI: INFP', 'Skincare: "Whatever\'s in the shower"'] },
+  { name: 'Blayze', info: ['Age: 29', 'Zodiac: Gemini', 'Diet: vibes-based'] },
+  { name: 'Elio', info: ['Age: 40-ish?', 'Job: Thought Leader (retired)', 'Last login: spiritually'] },
+  { name: 'Kenzie', info: ['MBTI: ✨ENXX✨', 'Horoscope: “Unsubscribe”', 'Goal: finish this onboarding'] },
+  { name: 'Zorbin', info: ['Pet: Roomba named Justice', 'Bio: Still optimizing my morning routine', 'Alignment: Chaotic Agile'] },
+  { name: 'Riley', info: ['Favorite Tool: Post-it Notes', 'Bio: Runs a micro-SaaS about nothing', 'Sleep Schedule: Theoretical'] },
+  { name: 'Nova', info: ['Drink of Choice: Mushroom latte', 'Strength: Pivoting', 'Weakness: Finishing anything'] },
+  { name: 'Calix', info: ['Role: UI Philosopher', 'Spirit Animal: Merge conflict', 'Status: Between sprints'] },
+  { name: 'Joey', info: ['MBTI: ESFP', 'Known for: deleting the prod DB', 'Favorite Quote: "It’s fine"'] },
+  { name: 'Mira', info: ['Zodiac: Libra', 'Side hustle: tarot for dogs', 'Vibe: unexplainably in beta'] },
+  { name: 'Dex', info: ['Occupation: Disgraced founder', 'Startup Count: 4.5', 'Most recent pivot: to grilled cheese AI'] },
+  { name: 'Taffy', info: ['Used to be: a productivity coach', 'Now: writing a book about burnout', 'Skin type: HTML'] },
+  { name: 'Bryce', info: ['Pronouns: /dev/null', 'IDE of choice: Notepad', 'Believes: Agile is a personality type'] },
+  { name: 'Cricket', info: ['Last post: 2016', 'Headshot: anime filter', 'Goal: escape onboarding'] },
+  { name: 'Luna', info: ['Aspiring hermit', 'Feeds off coffee and denial', 'Currently buffering...'] },
+  { name: 'Jet', info: ['Unemployed but mysterious', 'Once launched a startup about socks', 'Believes deadlines are a social construct'] },
+  { name: 'Echo', info: ['Age: unknown', 'Status: left on read', 'Once DM’d their therapist “lmao”'] },
+  { name: 'Bram', info: ['Mentor: a Tumblr account from 2012', 'MBTI: LOFI', 'Energy: Please don’t perceive me'] },
+  { name: 'Nyx', info: ['Slogan: "Probably fine"', 'Zodiac: Feral', 'Living: on vibes and iced coffee'] },
+  { name: 'Zeke', info: ['Still stuck in sprint planning', 'Believes in soft launches and softer hoodies', 'Dreams in grayscale'] },
+  { name: 'Ash', info: ['Daily ritual: refreshing the same tab', 'Technically employed', 'Ghosted by their own ambition'] },
+  { name: 'Rue', info: ['Current project: escaping expectations', 'Old hobby: ambition', 'Vibe check: failed'] },
+  { name: 'Indi', info: ['Emoji-based communication only', 'Onboarding since 2022', 'Tired™'] },
+  { name: 'Vex', info: ['Mood: “eh”', 'Allergic to meetings', 'Still has 7 unread Notion pages'] },
+  { name: 'Finn', info: ['MBTI: AFK', 'Thought leader of overthinking', 'Currently rebooting...'] }
+];
+
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  function nextStep(step) {
+    document.querySelectorAll('.onboarding').forEach(el => el.classList.add('hidden'));
+    const current = document.getElementById(`step${step}`);
+    if (current) current.classList.remove('hidden');
+    if (step === 3) renderSuggestions();
+    if (step === 4) startMatching();
+  }
+
+  function startMatching() {
+    renderUserCards();
+    renderSuggestions();
+    const progress = document.getElementById('finalProgress');
+    let width = 0;
+    const interval = setInterval(() => {
+      const randomJump = (Math.random() < 0.2);
+      if (randomJump) {
+        width = Math.max(0, Math.min(100, width + (Math.random() * 20 - 10)));
+      } else {
+        width += 0.5;
+      }
+      width += 0.5;
+      progress.style.width = width + '%';
+      if (width >= 100) {
+        clearInterval(interval);
+        setTimeout(() => {
+          const errorIcon = document.getElementById('errorIcon');
+          const errorMessage = document.getElementById('errorMessage');
+          const errors = [
+  'Error 429: Too many vibes',
+  'NullPointerException: soul not defined',
+  'Authentication failed: impostor syndrome detected',
+  'Warning: emotions overflow',
+  'Build failed: dreams unmet dependency',
+  'Error 418: I’m not a real startup',
+  'RuntimeError: Hope is not a function',
+  'Error: Tried to pivot but forgot the business model',
+  'Assertion failed: Friends will understand',
+  '404: Motivation not found',
+  'StackOverflowError: too many thoughts',
+  'Fatal: Market fit never achieved',
+  'Segmentation Fault: brain dumped',
+  'Exception in thread "main": existential crisis',
+  'Uncaught TypeError: Cannot read property "future" of null',
+  'Deployment failed: vibes not deployable',
+  'MemoryLeakError: clinging to the past',
+  'Permission denied: speak your truth',
+  'BrokenPipe: connection with reality lost',
+  'Failed to execute "growUp": undefined is not a function',
+  'TimeOut: never healed from that one thing',
+  'SIGTERM: dreams terminated by external force',
+  'Heap corruption: trust issues detected',
+  'DNS Lookup Failed: can’t resolve identity',
+  'Socket hang up: ghosted again',
+  'ConfigError: boundaries not set',
+  'ENOTFOUND: ambition not located',
+  'ImportError: self-worth module missing',
+  'Module not found: can’t locate purpose.js',
+  'UnhandledPromiseRejection: hope deferred too long',
+  'TooManyRedirects: please stop trying to reinvent yourself',
+  'Linker Error: can’t connect with others',
+  'ResourceNotFound: inner peace unavailable',
+  'Exception: Unexpected reality',
+  'QuotaExceededError: cried too much this month',
+  'NetworkError: no one replied',
+  'OutOfMemory: brain full of static',
+  'ReadOnlyError: can’t change who I am',
+  'Deadlock detected: too many open tabs and no progress',
+  'Kernel Panic: emotional operating system has halted',
+  'SoftFailure: tried my best, didn’t matter',
+  'ConnectionReset: abandoned again',
+  'Breakpoint hit: identity not defined',
+  'Infinite loop of disappointment detected',
+  'Error 202: Your therapist is also in therapy',
+  'Bootstrap failed: no confidence found',
+  'RuntimeWarning: ghosted by potential',
+  'SystemError: life not responding',
+  'FatalException: you opened Twitter again',
+  'RetryLimitExceeded: can’t keep pretending it’s fine'
+];
+          if (errorIcon && errorMessage) {
+            errorMessage.classList.remove('glitch');
+            errorIcon.firstElementChild.classList.remove('glitch');
+            if (Math.random() < 0.4) errorMessage.classList.add('glitch');
+            if (Math.random() < 0.4) errorIcon.firstElementChild.classList.add('glitch');
+            errorIcon.style.display = 'flex';
+            if (errorMessage) {
+              errorMessage.textContent = errors[Math.floor(Math.random() * errors.length)];  
+            }
+            
+          }
+          nextStep(5);
+        }, 500);
+      }
+    }, 60);
+  }
+
+  function renderUserCards() {
+    const container = document.getElementById('userCards');
+    if (!container) return;
+    container.innerHTML = '';
+    shuffle(userData).forEach(user => {
+      const card = document.createElement('div');
+      card.className = 'user-card';
+      const avatar = document.createElement('img');
+      avatar.src = `profiles/${user.name.toLowerCase()}.jpg`;
+      avatar.alt = `${user.name}'s profile picture`;
+      avatar.className = 'user-avatar';
+      card.appendChild(avatar);
+      const name = document.createElement('h4');
+      name.textContent = user.name;
+      card.appendChild(name);
+      user.info.forEach(text => {
+        const p = document.createElement('p');
+        p.textContent = text;
+        card.appendChild(p);
+      });
+      container.appendChild(card);
+    });
+  }
+
+  function renderSuggestions() {
+    const list = document.getElementById('suggestionList');
+    if (!list) return;
+    list.innerHTML = '';
+    const sample = shuffle(suggestions).slice(0, 5);
+    sample.forEach(text => {
+      const li = document.createElement('li');
+      li.textContent = text;
+      li.onclick = () => fillInput(li);
+      list.appendChild(li);
+    });
+  }
+
+  function fillInput(el) {
+    document.getElementById('taskInput').value = el.textContent;
+  }
+
+  function restartOnboarding() {
+    nextStep(1);
+    const bar = document.getElementById('finalProgress');
+    if (bar) bar.style.width = '0%';
+    const input = document.getElementById('taskInput');
+    if (input) input.value = '';
+    const userCards = document.getElementById('userCards');
+    if (userCards) userCards.scrollTop = 0;
+  }
+function addGlitches() {
+  const elements = document.querySelectorAll('h2, .button, .user-card h4');
+  elements.forEach(el => {
+    if (Math.random() < 0.5) {
+      el.classList.add('glitch');
+    }
+  });
+}
+const notificationMessages = [
+  'You have 1 new connection request from someone who also gave up.',
+  'Bungle matched! You both ignored the same task.',
+  'Reminder: You’re still not doing the thing.',
+  'Alert: Someone else cried over their planner too.',
+  'Motivation update failed. Try again later.',
+  'Someone bookmarked your Bungle as "relatable".',
+  'Good news: Nobody is ahead of you. Bad news: Also nobody is behind you.',
+  'Auto-snoozed your ambition for another 24 hours.',
+  'You’ve unlocked a new badge: “Didn’t Even Try.”',
+  'Emotional tech debt accrued. Interest rates rising.',
+  'Reminder: Your inbox is emotionally radioactive.',
+  'Someone liked your Bungle out of pity.',
+  'Your Bungle has been featured in Sad Human Monthly.',
+  'You’ve been invited to collaborate with “???”.',
+  'Warning: Task list now legally a cry for help.',
+  'Congrats! You’ve done absolutely nothing again.',
+  'A stranger resonated with your spiral.',
+  'You’ve been ghosted by your last remaining productivity tool.',
+  'Your calendar sent itself flowers out of concern.',
+  'Another user matched your “burnout but whimsical” energy.',
+  'This is not a real notification. You just wanted attention.',
+  'An ex-colleague just viewed your LinkedIn. Again.',
+  'We tried sending motivation. It bounced.',
+  'Your inner child unsubscribed from updates.',
+  'System clock reset to 2014 for nostalgic panic.',
+  'Achievement unlocked: Opened settings. Closed settings.',
+  'Reminder: you once had a five-year plan.',
+  'You’ve joined a new workspace called “rock bottom.”',
+  'All systems are failing silently. Just like you.',
+  'You reached inbox zero, but at what cost?',
+  'Your Bungle was flagged as “hauntingly relatable.”',
+  'You have 3 pending tasks and 1 existential crisis.',
+  'Error 503: Life temporarily unavailable.',
+  'The universe is typing...',
+  'New update: “It’s not getting better.”',
+  'You’ve been matched with a ghost of your past goals.',
+  'Someone added your Bungle to their vision board.',
+  'Heads up: You’re being outvibed.',
+  'A bot tried to finish your task and gave up.'
+];
+
+function showRandomNotification() {
+  document.querySelectorAll('.notification-popup').forEach(n => n.remove());
+  const msg = notificationMessages[Math.floor(Math.random() * notificationMessages.length)];
+  const popup = document.createElement('div');
+  popup.textContent = msg;
+  popup.style.position = 'absolute';
+  popup.style.top = '2.5rem';
+  popup.style.right = '1rem';
+  popup.style.background = 'var(--card-bg)';
+  popup.style.border = '1px solid rgba(255,255,255,0.1)';
+  popup.style.color = 'var(--text-color)';
+  popup.style.padding = '0.75rem 1rem';
+  popup.style.borderRadius = '0.5rem';
+  popup.style.fontSize = '0.9rem';
+  popup.style.boxShadow = '0 8px 24px rgba(0,0,0,0.2)';
+  popup.style.zIndex = 1001;
+  popup.style.maxWidth = '300px';
+  popup.className = 'notification-popup';
+
+  document.body.appendChild(popup);
+  setTimeout(() => popup.remove(), 5000);
+}
+
+document.getElementById('notificationIcon').addEventListener('click', showRandomNotification);
+setInterval(() => {
+  const icon = document.getElementById('notificationIcon');
+  if (!icon) return;
+  if (Math.random() < 0.15) {
+    icon.classList.add('wiggle');
+    setTimeout(() => icon.classList.remove('wiggle'), 500);
+  }
+}, 6000);
+const faqItems = [
+  { q: 'Is Bunglr real?', a: 'Unfortunately, yes.' },
+  { q: 'Will this app help me be productive?', a: 'Define "productive" and we can talk.' },
+  { q: 'Is Bunglr legally therapy?', a: 'We have strong “no” energy with soft “maybe” vibes.' },
+  { q: 'Why did I get matched with someone named “Zorbin”?', a: 'Fate. Or JavaScript.' },
+  { q: 'Does Bunglr store my data?', a: 'No, it barely stores your ambition.' },
+  { q: 'Can I actually complete a task?', a: 'In theory, yes. In practice... well.' },
+  { q: 'Why does the progress bar lie to me?', a: 'It’s mirroring your emotional development.' },
+  { q: 'Can I monetize my Bungle?', a: 'You can try, but it will cost you more than money.' },
+  { q: 'How do I delete my account?', a: 'Just stop caring. Works every time.' },
+  { q: 'What happens if I finish something?', a: 'We send a small shock to the main server out of confusion.' }
+];
+
+function toggleFaqModal() {
+  const modal = document.getElementById('faqModal');
+  if (!modal) return;
+  modal.classList.toggle('hidden');
+  modal.style.display = modal.classList.contains('hidden') ? 'none' : 'flex';
+  if (!modal.classList.contains('rendered')) {
+    const container = document.getElementById('faqContent');
+    faqItems.forEach(item => {
+      const q = document.createElement('div');
+      const arrow = document.createElement('span');
+      arrow.textContent = '▶';
+      arrow.style.display = 'inline-block';
+      arrow.style.transition = 'transform 0.3s ease';
+      arrow.style.marginRight = '0.5rem';
+
+      const questionText = document.createElement('span');
+      questionText.textContent = item.q;
+
+      q.appendChild(arrow);
+      q.appendChild(questionText);
+      q.style.cursor = 'pointer';
+      q.style.fontWeight = 'bold';
+      q.style.margin = '1rem 0 0.25rem 0';
+      q.style.display = 'flex';
+      q.style.alignItems = 'center';
+
+      const a = document.createElement('div');
+      a.textContent = item.a;
+      a.style.display = 'none';
+      a.style.fontSize = '0.95rem';
+      a.style.color = 'var(--muted-color)';
+      a.style.paddingTop = '0.25rem';
+      a.style.paddingLeft = '1rem';
+
+      q.onclick = () => {
+        const expanded = a.style.display === 'none';
+        a.style.display = expanded ? 'block' : 'none';
+        arrow.style.transform = expanded ? 'rotate(90deg)' : 'rotate(0deg)';
+      };
+
+      container.appendChild(q);
+      container.appendChild(a);
+    });
+    modal.classList.add('rendered');
+  }
+}
+
+function toggleTeamModal() {
+  const modal = document.getElementById('teamModal');
+  if (!modal) return;
+  modal.classList.toggle('hidden');
+  modal.style.display = modal.classList.contains('hidden') ? 'none' : 'flex';
+}
+function toggleCareersModal() {
+  const modal = document.getElementById('careersModal');
+  if (!modal) return;
+  modal.classList.toggle('hidden');
+  modal.style.display = modal.classList.contains('hidden') ? 'none' : 'flex';
+}
+  </script>
+<footer style="position: absolute; bottom: 0; width: 100%; text-align: center; padding: 1rem; font-size: 0.85rem; color: var(--muted-color); background: rgba(0, 0, 0, 0.2);">
+  <p>
+    <a href="https://hopedoesntscale.bandcamp.com" target="_blank" style="color: var(--muted-color); text-decoration: underline;">Hope Doesn’t Scale (album)</a> |
+    <a href="#" onclick="toggleTeamModal()" style="color: var(--muted-color); text-decoration: underline;">Our Team</a> |
+    <a href="#" onclick="toggleFaqModal()" style="color: var(--muted-color); text-decoration: underline;">FAQ</a> |
+    <a href="#" onclick="toggleCareersModal()" style="color: var(--muted-color); text-decoration: underline;">Careers</a>
+  </p>
+  </footer>
+<div id="faqModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; padding: 5px; overflow-y: auto;">
+  <div style="background: var(--card-bg); color: var(--text-color); padding: 2rem; max-width: 600px; width: 90%; border-radius: 1rem; box-shadow: 0 12px 30px rgba(0,0,0,0.3); max-height: 80vh; overflow-y: auto;">
+    <h2 style="margin-top: 0;">Frequently Avoided Questions</h2>
+    <div id="faqContent"></div>
+    <button onclick="toggleFaqModal()" style="margin-top: 1.5rem;" class="button">Close FAQ</button>
+  </div>
+</div>
+<div id="teamModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; padding: 5px; overflow-y: auto;">
+  <div style="background: var(--card-bg); color: var(--text-color); padding: 2rem; max-width: 600px; width: 90%; border-radius: 1rem; box-shadow: 0 12px 30px rgba(0,0,0,0.3); max-height: 80vh; overflow-y: auto;">
+    <h2 style="margin-top: 0;">Meet Our Team</h2>
+    <div style="display: flex; flex-direction: column; align-items: center; text-align: left;">
+      <img src="profiles/tanner.jpg" alt="Tanner Vale headshot" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem;">
+      <h3 style="margin: 0;">Tanner Vale</h3>
+      <p style="margin: 0.75rem 0; font-size: 0.95rem; line-height: 1.5;">
+        Tanner is the founder, sole contributor, and accidental face of Bunglr. He has a background in failed startups, post-ironic optimism, and once pitched an app while crying in a hammock. When not avoiding his own to-do list, Tanner mentors younger tech bros on how to gracefully spiral.
+        <br><br>
+        He believes productivity is a myth and that vibes are a valid KPI. His dad may or may not have a Wikipedia page, but Tanner insists he's "building his own thing, okay?"
+        <br><br>
+        Tanner is also currently producing a lo-fi concept album in his garage titled <em>Hope Doesn’t Scale</em>, which he describes as "what burnout would sound like if it were a vaporwave cassette." 
+      </p>
+    </div>
+    <button onclick="toggleTeamModal()" style="margin-top: 1.5rem;" class="button">Close</button>
+  </div>
+</div>
+<div id="careersModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; padding: 5px; overflow-y: auto;">
+  <div style="background: var(--card-bg); color: var(--text-color); padding: 2rem; max-width: 600px; width: 90%; border-radius: 1rem; box-shadow: 0 12px 30px rgba(0,0,0,0.3); max-height: 80vh; overflow-y: auto;">
+    <h2 style="margin-top: 0;">Careers at Bunglr</h2>
+    <p><strong>Chief Vibe Officer</strong> – Must have 5+ years of ambiguous leadership and a PhD in vibes. Bonus if your resume is a moodboard.</p>
+    <p><strong>Burnout Strategist</strong> – You'll be responsible for turning existential dread into branded messaging.</p>
+    <p><strong>React Developer (Disillusioned)</strong> – Build features no one asked for using tools you don’t understand.</p>
+    <p><strong>Chief Apology Officer</strong> – Fluent in “Sorry for the inconvenience” and “We’re working on it.”</p>
+    <p><strong>Emotional Data Analyst</strong> – Turn tears into metrics. Must hate dashboards.</p>
+    <button onclick="toggleCareersModal()" style="margin-top: 1.5rem;" class="button">Close</button>
+  </div>
+</div>
+</html>
